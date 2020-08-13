@@ -1,24 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { getData } from './data/data';
 
 function App() {
+  const [state, setState] = React.useState([]);
+
+  React.useEffect(() => {
+    getData().then((res) => setState(Object.entries(res.rates)));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="list-items">
+      <ul className="list-item">
+        <h1>List items</h1>
+        {state.map((item, index) => {
+          return (
+            <li key={item + index}>
+              <span>{item[0]}: </span>
+              {item[1]}
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
